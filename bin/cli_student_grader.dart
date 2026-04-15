@@ -31,6 +31,16 @@ void main(List<String> arguments) {
 
     switch (choice) {
       case '1':
+        print('Enter student name:');
+        String? name = stdin.readLineSync();
+        students.add({
+          'name': name,
+          "scores": [],
+          'subjects': {...availableSubjects},
+          'bonus': null,
+          'comment': null,
+        });
+        print("Student '$name' added successfully.");
         break;
       case '2':
         break;
