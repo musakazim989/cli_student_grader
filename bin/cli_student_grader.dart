@@ -149,6 +149,14 @@ void main(List<String> arguments) {
 
         break;
       case '5':
+        for (var student in students) {
+          var tags = [
+            student["name"],
+            "${student["scores"].length} scores",
+            if (student["bonus"] != null) "⭐ Has Bonus",
+          ];
+          print(tags.join(" | "));
+        }
         break;
       case '6':
         break;
