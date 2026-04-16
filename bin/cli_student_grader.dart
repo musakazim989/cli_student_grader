@@ -122,6 +122,31 @@ void main(List<String> arguments) {
 
         break;
       case '4':
+        for (int i = 0; i < students.length; i++) {
+          print("${i + 1}. ${students[i]['name']}");
+        }
+
+        int? studentIndex;
+        while (true) {
+          print('Select student number to add comment:');
+          String? studentChoice = stdin.readLineSync();
+          studentIndex = int.tryParse(studentChoice ?? '') ?? -1;
+          if (studentIndex < 1 || studentIndex > students.length) {
+            print("Invalid student number. Please try again.");
+            continue;
+          } else {
+            break;
+          }
+        }
+
+        print('Enter comment for ${students[studentIndex - 1]['name']}:');
+        String? comment = stdin.readLineSync();
+        students[studentIndex - 1]['comment'] = comment;
+        String display =
+            students[studentIndex - 1]['comment']?.toUpperCase() ??
+            "No comment provided";
+        print(display);
+
         break;
       case '5':
         break;
