@@ -240,6 +240,40 @@ void main(List<String> arguments) {
 
         break;
       case '7':
+        final totalStudents = students.length;
+        double totalAverage = 0;
+        int totalScoresCount = 0;
+        double highestAverage = 0;
+        double lowestAverage = 100;
+
+        for (var student in students) {
+          if (student['scores'].isEmpty) {
+            continue;
+          } else {
+            var totalScore = 0;
+            for (var score in student['scores']) {
+              totalScore += int.tryParse(score.toString()) ?? 0;
+            }
+            var avgScore = totalScore / student['scores'].length;
+            totalAverage += avgScore;
+            totalScoresCount++;
+            if (avgScore > highestAverage) {
+              highestAverage = avgScore;
+            }
+            if (avgScore < lowestAverage) {
+              lowestAverage = avgScore;
+            }
+          }
+        }
+        if (totalScoresCount > 0) {
+          totalAverage /= totalScoresCount;
+        }
+        print('Class Summary:');
+        print('Total Students: $totalStudents');
+        print('Class Average Score: ${totalAverage.toStringAsFixed(2)}');
+        print('Highest Average Score: ${highestAverage.toStringAsFixed(2)}');
+        print('Lowest Average Score: ${lowestAverage.toStringAsFixed(2)}');
+
         break;
       case '8':
         shouldExit = true;
