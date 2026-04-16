@@ -65,7 +65,7 @@ void main(List<String> arguments) {
           while (true) {
             print('Enter Score for ${subjectList[i]}: ');
             String? scoreInput = stdin.readLineSync();
-            double score = double.tryParse(scoreInput ?? '') ?? -1;
+            int score = int.tryParse(scoreInput ?? '') ?? -1;
             if (score < 0 || score > 100) {
               print("Invalid score. Please enter a value between 0 and 100.");
               continue;
@@ -159,6 +159,85 @@ void main(List<String> arguments) {
         }
         break;
       case '6':
+        for (int i = 0; i < students.length; i++) {
+          print("${i + 1}. ${students[i]['name']}");
+        }
+
+        int? studentIndex;
+        while (true) {
+          print('Select student number to add bonus points:');
+          String? studentChoice = stdin.readLineSync();
+          studentIndex = int.tryParse(studentChoice ?? '') ?? -1;
+          if (studentIndex < 1 || studentIndex > students.length) {
+            print("Invalid student number. Please try again.");
+            continue;
+          } else {
+            break;
+          }
+        }
+
+        var student = students[studentIndex - 1];
+        double averageScore = 0;
+
+        for (var score in student['scores']) {
+          averageScore += score;
+        }
+        if (student['scores'].isNotEmpty) {
+          averageScore /= student['scores'].length;
+        }
+        var finalAvg = averageScore + (student["bonus"] ?? 0);
+        if (finalAvg > 100) {
+          finalAvg = 100;
+        }
+
+        var grade = 'F';
+        if (finalAvg >= 90) {
+          grade = 'A';
+        } else if (finalAvg >= 80) {
+          grade = 'B';
+        } else if (finalAvg >= 70) {
+          grade = 'C';
+        } else if (finalAvg >= 60) {
+          grade = 'D';
+        }
+        String feedback = switch (grade) {
+          "A" => "Outstanding performance!",
+          "B" => "Good work, keep it up!",
+          "C" => "Satisfactory. Room to improve.",
+          "D" => "Needs improvement.",
+          "F" => "Failing. Please seek help.",
+          _ => "Unknown grade.",
+        };
+
+        String displayComment =
+            student["comment"]?.toUpperCase() ?? "No comment provided";
+
+        String cardHeader = '''
+╔══════════════════════════════╗
+║       REPORT CARD            ║
+╠══════════════════════════════╝''';
+        String cardFooter = '''
+╚══════════════════════════════╝
+''';
+        String nameLine = "║  Name:    ${student['name']}          ║";
+        String scoreLine = "║  Scores:  ${student['scores']}      ║";
+        String bonusLine =
+            "║  Bonus:   +${student['bonus'] ?? 0}                ║";
+        String averageLine = "║  Average:  $finalAvg               ║";
+        String gradeLine = "║  Grade:   $grade                  ║";
+        String commentLine = "║  Comment: $displayComment  ║";
+        String feedbackLine = "║  Feedback: $feedback         ║";
+
+        print(cardHeader);
+        print(nameLine);
+        print(scoreLine);
+        print(bonusLine);
+        print(averageLine);
+        print(gradeLine);
+        print(commentLine);
+        print(feedbackLine);
+        print(cardFooter);
+
         break;
       case '7':
         break;
