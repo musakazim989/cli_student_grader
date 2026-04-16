@@ -31,7 +31,7 @@ void main(List<String> arguments) {
 
     switch (choice) {
       case '1':
-        print('Enter student name:');
+        print('Enter student name (Add record):');
         String? name = stdin.readLineSync();
         students.add({
           'name': name,
@@ -76,9 +76,50 @@ void main(List<String> arguments) {
           }
         }
         print('Scores recorded for ${students[studentIndex - 1]['name']}');
-
         break;
+
       case '3':
+        for (int i = 0; i < students.length; i++) {
+          print("${i + 1}. ${students[i]['name']}");
+        }
+
+        int? studentIndex;
+        while (true) {
+          print('Select student number to add bonus points:');
+          String? studentChoice = stdin.readLineSync();
+          studentIndex = int.tryParse(studentChoice ?? '') ?? -1;
+          if (studentIndex < 1 || studentIndex > students.length) {
+            print("Invalid student number. Please try again.");
+            continue;
+          } else {
+            break;
+          }
+        }
+
+        while (true) {
+          print('Enter bonus points (0-10): ');
+          String? bonusInput = stdin.readLineSync();
+          int bonusValue = int.tryParse(bonusInput ?? '') ?? 0;
+          if (bonusValue < 0 || bonusValue > 10) {
+            print(
+              "Invalid bonus points. Please enter a value between 0 and 10.",
+            );
+            continue;
+          } else {
+            int? existingBonus = students[studentIndex - 1]['bonus'];
+
+            students[studentIndex - 1]['bonus'] ??= bonusValue;
+            if (existingBonus != null) {
+              print('Student already has bounus points.');
+            } else {
+              print(
+                'Bonus points added for ${students[studentIndex - 1]['name']}',
+              );
+            }
+            break;
+          }
+        }
+
         break;
       case '4':
         break;
@@ -95,5 +136,7 @@ void main(List<String> arguments) {
       default:
         print("Invalid option. Please try again.");
     }
+    ;
+    ;
   } while (shouldExit == false);
 }
